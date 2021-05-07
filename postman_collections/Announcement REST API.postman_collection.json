@@ -1,0 +1,55 @@
+{
+	"info": {
+		"_postman_id": "518db5cb-9f69-413b-b76f-bb07529c76eb",
+		"name": "Announcement REST API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "listing all announcements",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{aws_endpoint}}/announcements/",
+					"host": [
+						"{{aws_endpoint}}"
+					],
+					"path": [
+						"announcements",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "adding a new announcement",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Announcement_1\",\n  \"date\": \"2021-05-07\",\n  \"description\": \"Announcement 1 description.\"\n}\n"
+				},
+				"url": {
+					"raw": "{{aws_endpoint}}/announcements/",
+					"host": [
+						"{{aws_endpoint}}"
+					],
+					"path": [
+						"announcements",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
