@@ -2,6 +2,8 @@
 
 AWS-based serverless application.
 
+Requirements for CDK: Docker.
+
 ## CDK Python project description
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
@@ -24,12 +26,6 @@ step to activate your virtualenv.
 
 ```
 $ source .venv/bin/activate
-```
-
-If you are a Windows platform, you would activate the virtualenv like this:
-
-```
-% .venv\Scripts\activate.bat
 ```
 
 Once the virtualenv is activated, you can install the required dependencies.
