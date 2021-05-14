@@ -1,6 +1,7 @@
 import json
 import os
 import uuid
+from datetime import datetime
 
 import boto3
 from pydantic.error_wrappers import ValidationError
@@ -13,7 +14,7 @@ def handler(event, context):
         request_data = CreateAnnouncement(**body)
     except ValidationError as err:
         return {
-            'statusCode': 400,
+            'statusCode': 422,
             'headers': {'Content-Type': 'application/json'},
             'body': err.json(),
         }
@@ -24,6 +25,7 @@ def handler(event, context):
 
     new_announcement = request_data.dict()
     new_announcement['id'] = str(uuid.uuid4())
+    new_announcement['date'] = str(datetime.now())
     table.put_item(Item=new_announcement)
     response = table.get_item(Key={'id': new_announcement['id']})
     announcement = DbAnnouncement(**response['Item'])

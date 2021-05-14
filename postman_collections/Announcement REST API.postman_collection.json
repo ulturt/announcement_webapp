@@ -1,12 +1,26 @@
 {
 	"info": {
-		"_postman_id": "518db5cb-9f69-413b-b76f-bb07529c76eb",
+		"_postman_id": "b63a680a-36b0-4cdd-9d52-42b97d3f8d0a",
 		"name": "Announcement REST API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "listing all announcements",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -25,6 +39,51 @@
 		},
 		{
 			"name": "adding a new announcement",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"",
+							"var schema = {",
+							"  \"required\": [",
+							"    \"title\",",
+							"    \"description\",",
+							"    \"date\",",
+							"    \"id\"",
+							"  ],",
+							"  \"type\": \"object\",",
+							"  \"properties\": {",
+							"    \"title\": {",
+							"      \"type\": \"string\"",
+							"    },",
+							"    \"description\": {",
+							"      \"type\": \"string\"",
+							"    },",
+							"    \"date\": {",
+							"      \"type\": \"string\",",
+							"      \"format\": \"date-time\"",
+							"    },",
+							"    \"id\": {",
+							"      \"type\": \"string\"",
+							"    }",
+							"  }",
+							"};",
+							"",
+							"pm.test('Schema is valid', function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -36,7 +95,79 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"title\": \"Announcement_1\",\n  \"date\": \"2021-05-07\",\n  \"description\": \"Announcement 1 description.\"\n}\n"
+					"raw": "{\n  \"title\": \"Announcement_1\",\n  \"description\": \"Announcement 1 description.\"\n}\n"
+				},
+				"url": {
+					"raw": "{{aws_endpoint}}/announcements/",
+					"host": [
+						"{{aws_endpoint}}"
+					],
+					"path": [
+						"announcements",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "adding an invalid announcement",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 422\", function () {",
+							"    pm.response.to.have.status(422);",
+							"});",
+							"",
+							"var schema = {",
+							"  \"type\": \"array\",",
+							"  \"items\": {",
+							"    \"required\": [",
+							"      \"loc\",",
+							"      \"msg\",",
+							"      \"type\"",
+							"    ],",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"      \"loc\": {",
+							"        \"type\": \"array\",",
+							"        \"items\": {",
+							"          \"type\": \"string\"",
+							"        }",
+							"      },",
+							"      \"msg\": {",
+							"        \"type\": \"string\"",
+							"      },",
+							"      \"type\": {",
+							"        \"type\": \"string\"",
+							"      }",
+							"    }",
+							"  }",
+							"};",
+							"",
+							"pm.test('Schema is valid', function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Announcement_1\"\n}\n"
 				},
 				"url": {
 					"raw": "{{aws_endpoint}}/announcements/",
